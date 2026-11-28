@@ -24,6 +24,9 @@ internal fun resolveCtrlBased(e: KeyEvent): EditorKeyCommand? {
     if (e.isAltPressed) return null
     val ctrl = e.isCtrlPressed
     return when (e.key) {
+        Key.Copy -> EditorKeyCommand.Copy
+        Key.Cut -> EditorKeyCommand.Cut
+        Key.Paste -> EditorKeyCommand.Paste
         Key.A -> if (ctrl) EditorKeyCommand.SelectAll else null
         Key.C -> if (ctrl) EditorKeyCommand.Copy else null
         Key.X -> if (ctrl) EditorKeyCommand.Cut else null
@@ -50,6 +53,9 @@ internal fun resolveMacBased(e: KeyEvent): EditorKeyCommand? {
     val cmd = e.isMetaPressed
     val opt = e.isAltPressed
     return when (e.key) {
+        Key.Copy -> EditorKeyCommand.Copy
+        Key.Cut -> EditorKeyCommand.Cut
+        Key.Paste -> EditorKeyCommand.Paste
         Key.A -> if (cmd) EditorKeyCommand.SelectAll else null
         Key.C -> if (cmd) EditorKeyCommand.Copy else null
         Key.X -> if (cmd) EditorKeyCommand.Cut else null
@@ -60,6 +66,7 @@ internal fun resolveMacBased(e: KeyEvent): EditorKeyCommand? {
             cmd -> EditorKeyCommand.Find
             else -> null
         }
+
         Key.G -> if (cmd) (if (e.isShiftPressed) EditorKeyCommand.FindPrev else EditorKeyCommand.FindNext) else null
         Key.L -> if (cmd) EditorKeyCommand.GotoLine else null
         Key.Slash -> if (cmd) EditorKeyCommand.ToggleComment else null
@@ -68,11 +75,13 @@ internal fun resolveMacBased(e: KeyEvent): EditorKeyCommand? {
             cmd -> EditorKeyCommand.LineStart
             else -> null
         }
+
         Key.DirectionRight -> when {
             opt -> EditorKeyCommand.WordRight
             cmd -> EditorKeyCommand.LineEnd
             else -> null
         }
+
         Key.DirectionUp -> if (cmd) EditorKeyCommand.DocStart else null
         Key.DirectionDown -> if (cmd) EditorKeyCommand.DocEnd else null
         Key.MoveHome -> EditorKeyCommand.DocStart
